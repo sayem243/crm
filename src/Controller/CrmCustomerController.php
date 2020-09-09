@@ -3,8 +3,8 @@
 namespace App\Controller;
 
 use App\Entity\CrmCustomer;
+use App\Form\CrmCustomerType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 class CrmCustomerController extends AbstractController
@@ -20,12 +20,18 @@ class CrmCustomerController extends AbstractController
     }
 
     /**
-     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
+     * @Route("/crm/customer/new" ,name="new_customer")
      */
 
-    public function create(Request $request){
+    public function create(){
         $crmCustomer=new CrmCustomer();
-        $crmCustomerForm=$this->createForm();
+        $crmCustomerForm=$this->createForm(CrmCustomerType::class,$crmCustomer);
+
+        return $this->render('crm_customer/create.html.twig',[
+
+            'crmCustomer'=>$crmCustomerForm->createView()
+        ]);
 
 
     }
